@@ -1,0 +1,5 @@
+Success Rate =
+DIVIDE([Successful Missions], [Total Missions], 0)
+
+
+  
