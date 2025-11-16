@@ -1,0 +1,11 @@
+#  Exploratory  Data Analysis
+
+
+print("\n===== TOP 10 COMPANIES BY LAUNCH COUNT =====\n")
+print(space_missions['Company'].value_counts().head(10))
+
+print("\n===== MISSIONS BY STATUS =====\n")
+print(space_missions['MissionStatus'].value_counts())
+
+print("\n===== NUMBER OF MISSIONS PER YEAR =====\n")
+print(space_missions['Year'].value_counts().sort_index().head(15))  # first 15 years for preview
