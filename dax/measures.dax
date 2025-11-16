@@ -28,3 +28,31 @@ Success Rate = DIVIDE([Successful Missions], [Total Missions])
 -- 6. Decade
   Decade = INT('cleaned_space_missions'[Year] / 10) * 10
 
+-- 7. Total Launches
+Total Launches = COUNTROWS('cleaned_space_missions')
+
+-- 8. Successful Launches
+Successful Launches = SUM('cleaned_space_missions'[SuccessFlag])
+
+-- 9. Failed Launches
+Failed Launches = SUM('cleaned_space_missions'[FailureFlag])
+
+-- 10. Success Rate (%)
+Success Rate (%) = 
+DIVIDE(
+    CALCULATE(COUNTROWS(cleaned_space_missions), cleaned_space_missions[MissionStatus] = "Success"),
+    COUNTROWS(cleaned_space_missions)
+)
+
+-- 11. Average Launches per Year
+Avg Launches per Year = AVERAGE('cleaned_space_missions'[Year])
+
+-- 12 Top Organisations
+Top Organization =
+TOPN(
+    1,
+    SUMMARIZE(cleaned_space_missions, cleaned_space_missions[Company], "TotalMissions", COUNT(cleaned_space_missions[Mission])),
+    [TotalMissions],
+    DESC
+)
+
