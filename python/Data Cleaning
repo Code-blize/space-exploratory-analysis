@@ -16,4 +16,5 @@ space_missions['Price'] = (
 print('\n=====  AFTER CLEANING =====\n')
 print(space_missions[['Date', 'Year', 'Price']].head())
 
+# extracting the cleaned csv file to upload to PowerBi for visualization
 space_missions.to_csv("cleaned_space_missions.csv", index=False)
