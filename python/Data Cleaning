@@ -1,0 +1,19 @@
+# Cleaning Overview
+
+# converting 'date' to 'datetime' format columns
+space_missions['Date'] = pd.to_datetime(space_missions['Date'], errors = 'coerce')
+
+# creating a new column 'Year' from datetime column
+space_missions['Year'] = space_missions['Date'].dt.year
+
+# cleaning the "Price" column
+space_missions['Price'] = (
+    space_missions['Price']
+    .replace('[/$,]', '', regex = True)
+    .astype(float)
+)
+
+print('\n=====  AFTER CLEANING =====\n')
+print(space_missions[['Date', 'Year', 'Price']].head())
+
+space_missions.to_csv("cleaned_space_missions.csv", index=False)
