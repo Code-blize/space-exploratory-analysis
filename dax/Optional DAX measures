@@ -1,0 +1,15 @@
+-- To show the success rate per decade
+Success Rate (Decade) =
+VAR currentDecade = SELECTEDVALUE('cleaned_space_missions'[Decade])
+RETURN
+DIVIDE(
+    CALCULATE(
+        COUNTROWS('cleaned_space_missions'),
+        'cleaned_space_missions'[MissionStatus] = "Success",
+        'cleaned_space_missions'[Decade] = currentDecade
+    ),
+    CALCULATE(
+        COUNTROWS('cleaned_space_missions'),
+        'cleaned_space_missions'[Decade] = currentDecade
+    )
+)
