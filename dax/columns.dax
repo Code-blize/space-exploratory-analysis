@@ -1,0 +1,11 @@
+-- 1. SuccessFlag
+  SuccessFlag = 
+IF('cleaned_space_missions'[MissionStatus] = "Success", 1, 0)
+
+  -- 2. RetiredFlag
+  RetiredFlag = 
+IF('cleaned_space_missions'[MissionStatus] = "Retired", 1, 0)
+
+  -- 3. FailureFlag
+  FailureFlag = 
+IF('cleaned_space_missions'[MissionStatus] = "Failure", 1, 0)
