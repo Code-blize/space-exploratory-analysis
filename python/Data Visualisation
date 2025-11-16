@@ -1,0 +1,134 @@
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import numpy as np
+
+df = space_missions.copy()
+
+# === 1) Create Year and Decade columns (if not already)
+df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
+df['Year'] = df['Date'].dt.year
+df = df[df['Year'].notna()]  # drop rows with invalid dates, if any
+df['Year'] = df['Year'].astype(int)
+df['Decade'] = (df['Year'] // 10) * 10
+df['DecadeLabel'] = df['Decade'].astype(str) + 's'
+
+# === 2) Extract Country from Location (simple heuristic)
+# Location often looks like "LC-18A, Cape Canaveral AFS, Florida, USA"
+# We'll take the last comma-separated token as country where possible
+def extract_country(loc):
+    try:
+        parts = [p.strip() for p in str(loc).split(',')]
+        # if last token is short (2-3 letters) or looks like a country (USA, Kazakhstan) keep it
+        country = parts[-1]
+        # handle cases like "Soviet Union" etc — leave as-is
+        return country
+    except Exception:
+        return np.nan
+
+df['Country'] = df['Location'].apply(extract_country)
+
+# Quick cleanup: standardize some common country names (optional)
+df['Country'] = df['Country'].replace({
+    'US': 'USA',
+    'United States': 'USA',
+    'U.S.': 'USA',
+    'Soviet Union': 'USSR',
+    'Russian Federation': 'Russia'
+    # add more replacements if you notice inconsistencies
+})
+
+# === 3) Success/Failure: normalize MissionStatus values
+df['MissionStatus_clean'] = df['MissionStatus'].str.strip().str.title()
+# Consider only 'Success' or 'Failure' — treat other values as unknown
+df['SuccessBool'] = df['MissionStatus_clean'].apply(lambda x: 1 if x == 'Success' else (0 if x == 'Failure' else np.nan))
+
+# === 4) Aggregations by Year & Decade
+# By year
+by_year = df.groupby('Year').agg(
+    launches=('Mission', 'count'),
+    successes=('SuccessBool', 'sum')
+).reset_index()
+by_year['success_rate'] = by_year['successes'] / by_year['launches']
+
+# By decade
+by_decade = df.groupby('DecadeLabel').agg(
+    launches=('Mission', 'count'),
+    successes=('SuccessBool', 'sum')
+).reset_index()
+by_decade['success_rate'] = by_decade['successes'] / by_decade['launches']
+# Sort decades chronologically
+by_decade['DecadeInt'] = by_decade['DecadeLabel'].str.replace('s','').astype(int)
+by_decade = by_decade.sort_values('DecadeInt')
+
+# === 5) Top countries & top companies
+top_countries = df.groupby('Country').agg(
+    launches=('Mission', 'count'),
+    successes=('SuccessBool', 'sum')
+).reset_index()
+top_countries['success_rate'] = top_countries['successes'] / top_countries['launches']
+top_countries = top_countries.sort_values('launches', ascending=False).head(10)
+
+top_companies = df.groupby('Company').agg(
+    launches=('Mission', 'count'),
+    successes=('SuccessBool', 'sum')
+).reset_index()
+top_companies['success_rate'] = top_companies['successes'] / top_companies['launches']
+top_companies = top_companies.sort_values('launches', ascending=False).head(10)
+
+# === 6) Visuals (plotly) ===
+# Launches per decade (bar)
+fig_decade_launches = px.bar(
+    by_decade,
+    x='DecadeLabel',
+    y='launches',
+    title='Launches by Decade',
+    labels={'launches':'Number of Launches','DecadeLabel':'Decade'},
+    text='launches'
+)
+fig_decade_launches.update_traces(textposition='outside')
+
+# Success rate by decade (line)
+fig_decade_success = px.line(
+    by_decade,
+    x='DecadeLabel',
+    y='success_rate',
+    title='Success Rate by Decade',
+    labels={'success_rate':'Success Rate','DecadeLabel':'Decade'},
+    markers=True
+)
+fig_decade_success.update_yaxes(tickformat=".0%")
+
+# Top countries by launches (bar)
+fig_top_countries = px.bar(
+    top_countries,
+    x='Country',
+    y='launches',
+    title='Top Countries by Launch Count',
+    text='launches'
+)
+fig_top_countries.update_traces(textposition='outside')
+
+# Top companies by launches (bar)
+fig_top_companies = px.bar(
+    top_companies,
+    x='Company',
+    y='launches',
+    title='Top Organizations by Launch Count',
+    text='launches'
+)
+fig_top_companies.update_traces(textposition='outside')
+
+# Optional: Save figures as PNG (replace paths if needed)
+
+fig_decade_launches.show()
+fig_decade_success.show()
+fig_top_countries.show()
+fig_top_companies.show()
+
+
+# Print key summary stats for your copy/paste into your dashboard
+print("Total launches in dataset:", len(df))
+print("\nLaunches by decade:\n", by_decade[['DecadeLabel','launches','success_rate']].to_string(index=False))
+print("\nTop countries:\n", top_countries[['Country','launches','success_rate']].to_string(index=False))
+print("\nTop companies:\n", top_companies[['Company','launches','success_rate']].to_string(index=False))
