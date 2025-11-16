@@ -1,0 +1,12 @@
+# Basic Data Overview
+
+print("\n===== BASIC INFORMATION OF THE DATASET =====\n")
+print(space_missions.info())
+
+print('\nNumber of Rows and Columns:', space_mission.shape)
+
+print("\n===== MISSING VALUES =====\n")
+print(space_missions.isnull(). sum())
+
+print("\n===== COLUMNS NAME =====\n")
+print(space_missions.columns.tolist())
