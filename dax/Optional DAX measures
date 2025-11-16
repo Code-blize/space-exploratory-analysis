@@ -13,3 +13,22 @@ DIVIDE(
         'cleaned_space_missions'[Decade] = currentDecade
     )
 )
+
+-- To get the Golden Decade
+Golden Decade =
+VAR DecadeSummary =
+    SUMMARIZE(
+        cleaned_space_missions,
+        cleaned_space_missions[Year],
+        "Missions", COUNT(cleaned_space_missions[Mission])
+    )
+VAR MaxDecade =
+    MAXX(DecadeSummary, [Missions])
+RETURN
+CALCULATE(
+    MAX(cleaned_space_missions[Year]),
+    FILTER(
+        cleaned_space_missions,
+        COUNT(cleaned_space_missions[Mission]) = MaxDecade
+    )
+)
