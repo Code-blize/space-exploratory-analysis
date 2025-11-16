@@ -1,5 +1,30 @@
-Success Rate =
-DIVIDE([Successful Missions], [Total Missions], 0)
+-- 1. Total Missions
+Total Missions = COUNTROWS('cleaned_space_missions')
 
+-- 2. Successful Missions
+Successful Missions =
+CALCULATE(
+    COUNTROWS('cleaned_space_missions'),
+    'cleaned_space_missions'[MissionStatus] = "Success"
+)
 
-  
+-- 3. Failled Missions
+Failed Missions =
+CALCULATE(
+    COUNTROWS('cleaned_space_missions'),
+    'cleaned_space_missions'[MissionStatus] <> "Success"
+)
+
+-- 4. Retired Missions
+Retired Missions =
+CALCULATE(
+    COUNTROWS('cleaned_space_missions'),
+    'cleaned_space_missions'[MissionStatus] = "Retired"
+)
+
+-- 5. Success Rate
+Success Rate = DIVIDE([Successful Missions], [Total Missions])
+
+-- 6. Decade
+  Decade = INT('cleaned_space_missions'[Year] / 10) * 10
+
