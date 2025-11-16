@@ -1,0 +1,11 @@
+import pandas as pd
+
+# Full paths to your files
+data_path = r"C:\Users\obasi\Downloads\Space+Missions\space_missions.csv"
+dictionary_path = r"C:\Users\obasi\Downloads\Space+Missions\space_missions_data_dictionary.csv"
+
+# Read the CSV files
+space_missions = pd.read_csv(data_path, encoding='latin1')
+data_dict = pd.read_csv(dictionary_path, encoding='latin1')
+
+space_missions.head()
