@@ -2,7 +2,7 @@
 Data cleaning, EDA, DAX, and Power BI storytelling for the Maven Return To Space Challenge
 
 
-🚀 The Golden Era of Space
+The Golden Era of Space
 Maven Analytics – Return to Space Challenge
 
 This repository contains my full workflow and final dashboard submission for the Maven Return to Space Challenge, where I analyzed 4,600+ space missions (1957–2020) to uncover the decade that truly defined human space exploration — The Golden Era.
@@ -10,17 +10,17 @@ This repository contains my full workflow and final dashboard submission for the
 This project represents my first full storytelling dashboard built in Power BI, supported by Python for data cleaning and EDA.
 
 
-🌌 Project Summary
+Project Summary
 
 Using mission data from various global space agencies, I explored:
 
-⭐ Which decade had the highest mission success rate
+Which decade had the highest mission success rate
 
-📈 Which era had the most launches
+Which era had the most launches
 
-🔭 Which organizations were the most active
+Which organizations were the most active
 
-🛰️ How mission outcomes evolved over time
+How mission outcomes evolved over time
 
 The analysis revealed that the 1970s stood out as the Golden Era of Space Exploration — a decade marked by high activity, major technological milestones, and an exceptional success rate.
 
@@ -34,23 +34,23 @@ The analysis revealed that the 1970s stood out as the Golden Era of Space Explor
 | Visualization  | Power BI                     |
 | Documentation  | GitHub                       |
 
-📁 Repository Structure
+Repository Structure
 
-📦 maven-golden-era-space
- ┣ 📂 python
+maven-golden-era-space
+ ┣ python
  ┃ ┗ README.md
- ┣ 📂 dax
+ ┣ dax
  ┃ ┗ measures.dax
- ┣ 📂 dashboard
+ ┣  dashboard
  ┃ ┗ Golden_Era.pbix
- ┣ 📂 data
+ ┣  data
  ┃ ┗ cleaned_space_missions.csv
- ┣ 📂 images
+ ┣  images
  ┃ ┗ dashboard_preview.png
  ┗ README.md
 
-🔍 Key Steps in the Project
-1️⃣ Data Extraction
+ Key Steps in the Project
+ Data Extraction
 
 Downloaded the official Maven dataset containing:
 
@@ -58,7 +58,7 @@ Downloaded the official Maven dataset containing:
 
 9 original fields (Company, Date, Rocket, Mission, Status, etc.)
 
-2️⃣ Data Cleaning (Python)
+ Data Cleaning (Python)
 
 Performed cleanup to prepare the data for BI modeling:
 
@@ -74,7 +74,7 @@ Cleaned text inconsistencies
 
 Exported the cleaned dataset to CSV
 
-3️⃣ Exploratory Data Analysis (EDA)
+ Exploratory Data Analysis (EDA)
 
 Explored trends such as:
 
@@ -86,21 +86,21 @@ Most active companies and rockets
 
 This guided the visual and narrative structure of the Power BI dashboard.
 
-4️⃣ Data Modeling & DAX Measures (Power BI)
+ Data Modeling & DAX Measures (Power BI)
 
 Created essential metrics, including:
 
-✔️ Total Missions
+ Total Missions
 Total Missions = COUNTROWS(cleaned_space_missions)
 
-✔️ Successful Missions
+ Successful Missions
 Successful Missions =
 CALCULATE(
     COUNTROWS(cleaned_space_missions),
     cleaned_space_missions[MissionStatus] = "Success"
 )
 
-✔️ Success Rate
+ Success Rate
 Success Rate =
 DIVIDE(
     [Successful Missions],
@@ -108,36 +108,37 @@ DIVIDE(
     0
 )
 
-✔️ Missions by Decade
+ Missions by Decade
 
 Created a Decade column in Power Query using Year // 10 * 10.
 
-5️⃣ Dashboard Design & Storytelling
+Dashboard Design & Storytelling
 
 Designed a full-page space-themed dashboard including:
 
-🚀 KPI cards (Total Missions, Success Rate, Golden Decade)
+KPI cards (Total Missions, Success Rate, Golden Decade)
 
-📈 Line Chart (Success trends across decades)
+Line Chart (Success trends across decades)
 
-🟣 Bubble Chart (Launches vs Success rate per decade)
+Bubble Chart (Launches vs Success rate per decade)
 
-🛰️ Top Space Agencies bar chart
+Top Space Agencies bar chart
 
-📝 Insight text boxes to explain findings
+Insight text boxes to explain findings
 
 My goal was to focus on clarity, visual hierarchy, and storytelling — not just charts.
 
-🪐 Final Insight
+ Final Insight
 
 The 1970s were the Golden Era of Space Exploration.
 They displayed high mission volume, exceptional success rates, and major global advancements in space programs.
 
-📊 Dashboard Preview
+Dashboard Preview
 
-(Insert your dashboard screenshot here once you upload it to GitHub)
+<img width="1592" height="1905" alt="image" src="https://github.com/user-attachments/assets/37418e8f-c9b1-43d7-bfb5-e25dd30a79f6" />
 
-🎓 Learning Experience
+
+Learning Experience
 
 This was my first time using Power BI, and it taught me:
 
@@ -151,6 +152,6 @@ How design choices shape the narrative
 
 I’m excited to keep growing as a data analyst and build more impactful projects.
 
-🤝 Acknowledgements
+Acknowledgements
 
 Thank you to Maven Analytics for the challenge and to the data community for the continuous inspiration.
